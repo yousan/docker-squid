@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  build: # https://docs.docker.com/compose/compose-file/#/build
+    context: .
+    dockerfile: Dockerfile

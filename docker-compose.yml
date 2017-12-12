@@ -1,6 +1,18 @@
 version: '3'
 
 services:
-  build: # https://docs.docker.com/compose/compose-file/#/build
-    context: .
-    dockerfile: Dockerfile
+  squid:
+    container_name: squid
+#  build: # https://docs.docker.com/compose/compose-file/#/build
+#    - context: .
+#    - dockerfile: Dockerfile
+    image: yousan/squid:local
+    volumes:
+      - ./squid.conf:/home/squid/local/etc/squid.conf
+      - ./ssl:/home/squid/ssl
+      - ./basic-credentials:/home/squid/local/etc/squid/basic-credentials
+#    - /www
+#    - /tmp/hoge
+    ports:
+      - 8080:8080
+      - 3128:3128

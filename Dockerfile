@@ -26,21 +26,23 @@ RUN make -j2
 RUN make install
 
 # place server certificate and private key
-COPY ssl /home/squid/ssl
+# COPY ssl /home/squid/ssl
+RUN mkdir /home/squid/ssl
+RUN mkdir -p /home/squid/local/etc/squid
 
 # place configuration files and scripts
-COPY squid.conf /home/squid/local/etc/squid.conf
-COPY basic-credentials /home/squid/local/etc/squid/basic-credentials
+# COPY squid.conf /home/squid/local/etc/squid.conf
+# COPY basic-credentials /home/squid/local/etc/squid/basic-credentials
 COPY start.sh /home/squid/start.sh
 
 # fix permissions
 USER root
 RUN chown -R squid:squid /home/squid/ssl /home/squid/local/etc /home/squid/start.sh
-RUN chmod -R 400 /home/squid/ssl/* /home/squid/local/etc/squid/basic-credentials
+# RUN chmod -R 400 /home/squid/ssl/ /home/squid/local/etc/squid/basic-credentials
 RUN chmod -R 700 /home/squid/ssl
 
 # start proxy server
 USER squid
 WORKDIR /
-EXPOSE 3128
+EXPOSE 3128 8080
 CMD ["bash", "/home/squid/start.sh"]
